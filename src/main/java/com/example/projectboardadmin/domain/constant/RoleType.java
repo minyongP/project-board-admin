@@ -1,5 +1,6 @@
 package com.example.projectboardadmin.domain.constant;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
