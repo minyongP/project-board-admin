@@ -35,6 +35,6 @@ public class TestSecurityConfig {
                 "uno-test@email.com",
                 "uno-test",
                 "test memo"
-        )
+        );
     }
 }
