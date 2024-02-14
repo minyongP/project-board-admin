@@ -7,15 +7,16 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import java.time.LocalDateTime;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public record ArticleResponse (
+public record ArticleResponse(
         Long id,
         UserAccountDto userAccount,
         String title,
         String content,
-        LocalDateTime createAt
+        LocalDateTime createdAt
 ) {
-    public static ArticleResponse of(Long id, UserAccountDto userAccount, String title, String content, LocalDateTime createAt) {
-        return new ArticleResponse(id, userAccount, title, content, createAt);
+
+    public static ArticleResponse of(Long id, UserAccountDto userAccount, String title, String content, LocalDateTime createdAt) {
+        return new ArticleResponse(id, userAccount, title, content, createdAt);
     }
 
     public static ArticleResponse withContent(ArticleDto dto) {
@@ -25,5 +26,6 @@ public record ArticleResponse (
     public static ArticleResponse withoutContent(ArticleDto dto) {
         return ArticleResponse.of(dto.id(), dto.userAccount(), dto.title(), null, dto.createdAt());
     }
+
 
 }
