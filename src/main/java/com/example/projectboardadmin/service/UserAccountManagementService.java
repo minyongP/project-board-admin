@@ -43,7 +43,7 @@ public class UserAccountManagementService {
 
     public void deleteUserAccount(String userId) {
         URI uri =
-                UriComponentsBuilder.fromHttpUrl(projectProperties.board().url() + "/api/userAccounts" + userId)
+                UriComponentsBuilder.fromHttpUrl(projectProperties.board().url() + "/api/userAccounts/" + userId)
                         .build()
                         .toUri();
         restTemplate.delete(uri);

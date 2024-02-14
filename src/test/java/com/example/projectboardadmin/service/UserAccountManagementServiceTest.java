@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.test.autoconfigure.web.client.AutoConfigureWebClient;
 import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpMethod;
@@ -55,16 +56,24 @@ class UserAccountManagementServiceTest {
 
     @DisplayName("API mocking 테스트")
     @EnableConfigurationProperties(ProjectProperties.class)
+    @AutoConfigureWebClient(registerRestTemplate = true)
     @RestClientTest(UserAccountManagementService.class)
     @Nested
     class RestTemplateTest {
+
         private final UserAccountManagementService sut;
         private final ProjectProperties projectProperties;
         private final MockRestServiceServer server;
         private final ObjectMapper mapper;
 
         @Autowired
-        public RestTemplateTest(UserAccountManagementService sut, ProjectProperties projectProperties, MockRestServiceServer server, ObjectMapper mapper) {
+        public RestTemplateTest(
+                UserAccountManagementService sut,
+                ProjectProperties projectProperties,
+                MockRestServiceServer server,
+                ObjectMapper mapper
+
+        ) {
             this.sut = sut;
             this.projectProperties = projectProperties;
             this.server = server;
@@ -73,12 +82,17 @@ class UserAccountManagementServiceTest {
 
         @DisplayName("회원 목록 API을 호출하면, 회원들을 가져온다.")
         @Test
-        void givenNothing_whenCallingUserAccountApi_thenReturnsUserAccountList() throws Exception{
+        void givenNothing_whenCallingUserAccountsApi_thenReturnsUserAccountList() throws Exception {
             // Given
             UserAccountDto expectedUserAccount = createUserAccountDto("uno", "Uno");
             UserAccountClientResponse expectedResponse = UserAccountClientResponse.of(List.of(expectedUserAccount));
-            server.expect(requestTo(projectProperties.board().url() + "/api/userAccounts?size=10000"))
-                    .andRespond(withSuccess(mapper.writeValueAsString(expectedResponse), MediaType.APPLICATION_JSON));
+            server
+                    .expect(requestTo(projectProperties.board().url() + "/api/userAccounts?size=10000"))
+                    .andRespond(withSuccess(
+                            mapper.writeValueAsString(expectedResponse),
+                            MediaType.APPLICATION_JSON
+                    ));
+
 
             // When
             List<UserAccountDto> result = sut.getUserAccounts();
@@ -132,6 +146,7 @@ class UserAccountManagementServiceTest {
         }
     }
 
+
     private UserAccountDto createUserAccountDto(String userId, String nickname) {
         return UserAccountDto.of(
                 userId,
@@ -140,5 +155,6 @@ class UserAccountManagementServiceTest {
                 "test memo"
         );
     }
+
 
 }
