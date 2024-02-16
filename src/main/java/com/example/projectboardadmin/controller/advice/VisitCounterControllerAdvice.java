@@ -2,12 +2,11 @@ package com.example.projectboardadmin.controller.advice;
 
 import com.example.projectboardadmin.service.VisitCounterService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 @RequiredArgsConstructor
-@Controller
+@ControllerAdvice
 public class VisitCounterControllerAdvice {
 
     private final VisitCounterService visitCounterService;
